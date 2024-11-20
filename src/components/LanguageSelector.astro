@@ -1,0 +1,110 @@
+---
+import { languages, flags } from "../i18n/ui";
+type Language = keyof typeof languages;
+const defaultLang: Language = "es";
+---
+
+<div
+  id="language-selector"
+  class="flex items-center justify-center relative py-3 px-4 overflow-hidden text-txt-secondary text-xl font-medium border border-outline/25 bg-secondary/50 shadow rounded-[20px] group hover:text-primary hover:bg-secondary hover:border-outline/70 hover:delay-0 transition-all duration-200 delay-150"
+  data-flags={JSON.stringify(flags)}
+  data-languages={JSON.stringify(languages)}
+>
+  <button
+    class="button w-full inline-block before:absolute group-hover:before:bg-secondary before:rounded-[18px] before:inset-[0.1em] before:z-10 before:transition-all before:duration-200 before:delay-150 group-hover:before:delay-0"
+  >
+    <div class="absolute inset-0 overflow-visible [container-type:size]">
+      <div
+        class="slide-item absolute inset-0 h-[100cqh] animate-slide [aspect-ratio:1] [border-radius:0] [mask:none] [animation-play-state:paused]"
+      >
+        <div
+          class="spin-item absolute inset-[-100%] w-auto rotate-0 animate-spin bg-shimmering-light [translate:0_0] opacity-0 group-hover:opacity-100 transition-opacity duration-200 group-hover:delay-150 [animation-play-state:paused]"
+        >
+        </div>
+      </div>
+    </div>
+    <div class="relative flex items-center gap-1 z-20">
+      <svg
+        class="size-11"
+        width="48"
+        height="48"
+        viewBox="0 0 48 48"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <g id="colombia-flag" transform="translate(8, 2)">
+          <rect width="20" height="6.6" fill="#FCD116"></rect>
+          <rect y="6.6" width="20" height="6.7" fill="#003893"></rect>
+          <rect y="13.3" width="20" height="6.7" fill="#CE1126"></rect>
+        </g>
+        <g id="uk-flag" transform="translate(26, 31)">
+          <rect width="20" height="20" fill="#012169"></rect>
+          <path d="M0,0 L20,20 M20,0 L0,20" stroke="white" stroke-width="3"
+          ></path>
+          <path d="M0,0 L20,20 M20,0 L0,20" stroke="#C8102E" stroke-width="1"
+          ></path>
+          <path d="M10,0 V20 M0,10 H20" stroke="white" stroke-width="6"></path>
+          <path d="M10,0 V20 M0,10 H20" stroke="#C8102E" stroke-width="3"
+          ></path>
+        </g>
+        <path
+          id="divider-line"
+          d="M11 36.4558L36.4558 11"
+          stroke="white"
+          stroke-width="2"
+          stroke-linecap="round"></path>
+      </svg>
+    </div>
+  </button>
+</div>
+
+<script>
+  import type { languages } from "../i18n/ui";
+  type Language = keyof typeof languages;
+
+  const languageSelector = document.getElementById("language-selector");
+  const colombiaFlag = document.getElementById("colombia-flag");
+  const ukFlag = document.getElementById("uk-flag");
+  const dividerLine = document.getElementById("divider-line");
+
+  if (languageSelector && colombiaFlag && ukFlag && dividerLine) {
+    const currentLang = (localStorage.getItem("language") as Language) || "es";
+
+    const updateLanguageUI = (lang: Language) => {
+      if (lang === "es") {
+        colombiaFlag.setAttribute("transform", "translate(8, 2)");
+        ukFlag.setAttribute("transform", "translate(26, 31)");
+        dividerLine.setAttribute("d", "M11 36.4558L36.4558 11");
+      } else {
+        ukFlag.setAttribute("transform", "translate(26, 2)");
+        colombiaFlag.setAttribute("transform", "translate(8, 31)");
+        dividerLine.setAttribute("d", "M36.4558 36.4558L11 11");
+      }
+      document.documentElement.lang = lang;
+      localStorage.setItem("language", lang);
+    };
+
+    const style = document.createElement("style");
+    style.textContent = `
+     #colombia-flag, #uk-flag {
+       transition: transform 0.5s ease-in-out;
+     }
+     #divider-line {
+       transition: d 0.5s ease-in-out;
+     }
+   `;
+    document.head.appendChild(style);
+
+    languageSelector.addEventListener("click", () => {
+      const newLang = document.documentElement.lang === "es" ? "en" : "es";
+      updateLanguageUI(newLang);
+      window.dispatchEvent(
+        new CustomEvent<Language>("language-change", {
+          detail: newLang,
+        })
+      );
+    });
+
+    updateLanguageUI(currentLang);
+  }
+</script>
