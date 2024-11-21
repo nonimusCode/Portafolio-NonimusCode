@@ -1,43 +1,41 @@
 ---
 import { languages, flags } from "../i18n/ui";
-type Language = keyof typeof languages;
-const defaultLang: Language = "es";
 ---
 
 <div
   id="language-selector"
-  class="flex items-center justify-center relative py-3 px-4 overflow-hidden text-txt-secondary text-xl font-medium border border-outline/25 bg-secondary/50 shadow rounded-[20px] group hover:text-primary hover:bg-secondary hover:border-outline/70 hover:delay-0 transition-all duration-200 delay-150"
+  class="flex items-center justify-center relative py-2 px-3 overflow-hidden text-base font-medium border rounded-xl group hover:text-primary hover:border-outline/70 transition-all duration-100 gap-2 hover-border-animation w-[110px] bg-[#050c18] border-[#1a2332]"
   data-flags={JSON.stringify(flags)}
   data-languages={JSON.stringify(languages)}
 >
   <button
-    class="button w-full inline-block before:absolute group-hover:before:bg-secondary before:rounded-[18px] before:inset-[0.1em] before:z-10 before:transition-all before:duration-200 before:delay-150 group-hover:before:delay-0"
+    class="button w-full inline-flex items-center justify-between before:absolute group-hover:before:bg-secondary before:rounded-lg before:inset-[0.1em] before:z-10 before:transition-all before:duration-100"
   >
     <div class="absolute inset-0 overflow-visible [container-type:size]">
       <div
         class="slide-item absolute inset-0 h-[100cqh] animate-slide [aspect-ratio:1] [border-radius:0] [mask:none] [animation-play-state:paused]"
       >
         <div
-          class="spin-item absolute inset-[-100%] w-auto rotate-0 animate-spin bg-shimmering-light [translate:0_0] opacity-0 group-hover:opacity-100 transition-opacity duration-200 group-hover:delay-150 [animation-play-state:paused]"
+          class="spin-item absolute inset-[-100%] w-auto rotate-0 animate-spin bg-shimmering-light [translate:0_0] opacity-0 group-hover:opacity-100 transition-opacity duration-100"
         >
         </div>
       </div>
     </div>
-    <div class="relative flex items-center gap-1 z-20">
+    <div class="relative flex items-center gap-2 z-20">
       <svg
-        class="size-11"
-        width="48"
-        height="48"
+        class="size-8 min-w-8"
+        width="32"
+        height="32"
         viewBox="0 0 48 48"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
       >
-        <g id="colombia-flag" transform="translate(8, 2)">
+        <g id="colombia-flag" transform="translate(6, 2)">
           <rect width="20" height="6.6" fill="#FCD116"></rect>
           <rect y="6.6" width="20" height="6.7" fill="#003893"></rect>
           <rect y="13.3" width="20" height="6.7" fill="#CE1126"></rect>
         </g>
-        <g id="uk-flag" transform="translate(26, 31)">
+        <g id="uk-flag" transform="translate(28, 31)">
           <rect width="20" height="20" fill="#012169"></rect>
           <path d="M0,0 L20,20 M20,0 L0,20" stroke="white" stroke-width="3"
           ></path>
@@ -51,12 +49,63 @@ const defaultLang: Language = "es";
           id="divider-line"
           d="M11 36.4558L36.4558 11"
           stroke="white"
-          stroke-width="2"
+          stroke-width="4"
           stroke-linecap="round"></path>
       </svg>
     </div>
   </button>
+  <span id="language-text" class="text-sm font-medium min-w-[52px] text-center"
+    >Español</span
+  >
 </div>
+
+<style>
+  .hover-border-animation {
+    position: relative;
+  }
+
+  .hover-border-animation::before {
+    content: "";
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    border: 2px solid transparent;
+    border-radius: inherit;
+    pointer-events: none;
+  }
+
+  .hover-border-animation::after {
+    content: "";
+    position: absolute;
+    inset: -2px;
+    border-radius: inherit;
+    background: linear-gradient(90deg, #3b82f6, #60a5fa, #3b82f6);
+    -webkit-mask:
+      linear-gradient(#fff 0 0) content-box,
+      linear-gradient(#fff 0 0);
+    mask:
+      linear-gradient(#fff 0 0) content-box,
+      linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+
+  .hover-border-animation:hover::after {
+    opacity: 1;
+    animation: rotate 2s linear infinite;
+  }
+
+  @keyframes rotate {
+    from {
+      transform: rotate(0deg);
+    }
+    to {
+      transform: rotate(360deg);
+    }
+  }
+</style>
 
 <script>
   import type { languages } from "../i18n/ui";
@@ -66,19 +115,28 @@ const defaultLang: Language = "es";
   const colombiaFlag = document.getElementById("colombia-flag");
   const ukFlag = document.getElementById("uk-flag");
   const dividerLine = document.getElementById("divider-line");
+  const languageText = document.getElementById("language-text");
 
-  if (languageSelector && colombiaFlag && ukFlag && dividerLine) {
+  if (
+    languageSelector &&
+    colombiaFlag &&
+    ukFlag &&
+    dividerLine &&
+    languageText
+  ) {
     const currentLang = (localStorage.getItem("language") as Language) || "es";
 
     const updateLanguageUI = (lang: Language) => {
       if (lang === "es") {
-        colombiaFlag.setAttribute("transform", "translate(8, 2)");
-        ukFlag.setAttribute("transform", "translate(26, 31)");
+        colombiaFlag.setAttribute("transform", "translate(6, 2)");
+        ukFlag.setAttribute("transform", "translate(28, 31)");
         dividerLine.setAttribute("d", "M11 36.4558L36.4558 11");
+        languageText.textContent = "Español";
       } else {
-        ukFlag.setAttribute("transform", "translate(26, 2)");
-        colombiaFlag.setAttribute("transform", "translate(8, 31)");
+        ukFlag.setAttribute("transform", "translate(28, 2)");
+        colombiaFlag.setAttribute("transform", "translate(6, 31)");
         dividerLine.setAttribute("d", "M36.4558 36.4558L11 11");
+        languageText.textContent = "English";
       }
       document.documentElement.lang = lang;
       localStorage.setItem("language", lang);
@@ -86,13 +144,13 @@ const defaultLang: Language = "es";
 
     const style = document.createElement("style");
     style.textContent = `
-     #colombia-flag, #uk-flag {
-       transition: transform 0.5s ease-in-out;
-     }
-     #divider-line {
-       transition: d 0.5s ease-in-out;
-     }
-   `;
+      #colombia-flag, #uk-flag {
+        transition: transform 0.01s ease-in-out;
+      }
+      #divider-line {
+        transition: d 0.01s ease-in-out;
+      }
+    `;
     document.head.appendChild(style);
 
     languageSelector.addEventListener("click", () => {

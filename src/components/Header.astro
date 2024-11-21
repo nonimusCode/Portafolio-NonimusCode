@@ -13,34 +13,43 @@ const navigation = [
 <header class="fixed w-full top-0 z-50">
   <nav class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
     <div class="flex items-center justify-between">
+      <div class="hidden md:block">
+        <img src="public/linkedin/icons8-linkedin-48.svg" alt="" />
+      </div>
       <!-- Desktop Navigation -->
       <div class="hidden md:block">
         <div
-          class="bg-[#0A192F]/40 backdrop-blur-md px-[2.5rem] py-4 rounded-xl border border-gray-800"
+          class="bg-[#0A192F]/40 backdrop-blur-md px-[2.5rem] py-4 rounded-3xl border border-gray-800"
         >
-          <div class="flex items-center space-x-8">
-            {
-              navigation.map(({ href, key }) => (
-                <a
-                  href={href}
-                  class="text-gray-300 hover:text-[#5BE9FF] text-xl font-medium transition-colors"
-                >
-                  <TranslatedText key={key} />
-                </a>
-              ))
-            }
-          </div>
+          <nav class="relative">
+            <div class="flex items-center gap-20">
+              {
+                navigation.map(({ href, key }) => (
+                  <a
+                    href={href}
+                    class="relative text-gray-300 hover:text-[#3b82f6] text-xl font-medium transition-colors py-2 nav-link"
+                    data-section={href.replace("#", "")}
+                  >
+                    <TranslatedText key={key} />
+                    <span class="nav-indicator absolute bottom-0 left-0 w-full h-0.5 bg-[#3b82f6] scale-x-0 transition-transform duration-300 origin-left" />
+                  </a>
+                ))
+              }
+            </div>
+          </nav>
         </div>
       </div>
 
       <!-- Theme Toggle & Language -->
       <div class="flex items-center gap-4">
-        <LanguageSelector />
+        <div class="hidden md:block">
+          <LanguageSelector />
+        </div>
 
         <!-- Mobile Menu Button -->
         <button
           id="mobile-menu-button"
-          class="md:hidden bg-[#0A192F]/40 backdrop-blur-md p-2 rounded-lg border border-gray-800"
+          class="md:hidden bg-[#0d1117]/40 backdrop-blur-md p-2 rounded-lg border border-gray-800"
         >
           <svg
             class="w-5 h-5 text-gray-300"
@@ -61,14 +70,14 @@ const navigation = [
     <!-- Mobile Menu -->
     <div
       id="mobile-menu"
-      class="fixed inset-0 bg-[#0A192F]/95 backdrop-blur-lg md:hidden hidden"
+      class="fixed inset-0 bg-[#0A192F]/40 backdrop-blur-lg md:hidden hidden"
     >
       <div class="min-h-screen flex flex-col">
         <!-- Mobile Menu Header -->
         <div class="flex items-center justify-between p-4">
           <a href="#home" class="flex-shrink-0">
             <svg
-              class="w-8 h-8 text-[#5BE9FF]"
+              class="w-8 h-8 text-[#3b82f6]"
               viewBox="0 0 24 24"
               fill="currentColor"
             >
@@ -101,7 +110,7 @@ const navigation = [
             navigation.map(({ href, key }) => (
               <a
                 href={href}
-                class="text-2xl text-gray-300 hover:text-[#5BE9FF] font-medium transition-colors"
+                class="text-2xl text-gray-300 hover:text-[#3b82f6] font-medium transition-colors"
               >
                 <TranslatedText key={key} />
               </a>

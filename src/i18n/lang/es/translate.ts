@@ -3,7 +3,7 @@ export const es = {
   "nav.about": "Sobre mí",
   "nav.projects": "Proyectos",
   "nav.contact": "Contacto",
-  "hero.greeting": "¡Hola! Mi nombre es",
+  "hero.greeting": "¡Hola! soy",
   "hero.title": "Construyo experiencias web increíbles",
   "hero.description":
     "Desarrollador Frontend especializado en crear sitios web atractivos y funcionales",

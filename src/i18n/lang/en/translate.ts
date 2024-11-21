@@ -3,7 +3,7 @@ export const en = {
   "nav.about": "About",
   "nav.projects": "Projects",
   "nav.contact": "Contact",
-  "hero.greeting": "Hello! My name is",
+  "hero.greeting": "Hello! i'm",
   "hero.title": "I build amazing web experiences",
   "hero.description":
     "Frontend Developer specialized in creating attractive and functional websites",
